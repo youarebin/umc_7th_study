@@ -1,6 +1,11 @@
-function Input(type, defaultValue, onChange) {
+// eslint-disable-next-line react/prop-types
+function Input({ value, onChange }) {
     return (
-        <input type={type} defaultValue={defaultValue} onChange={onChange} />
+        <input 
+            type='text' 
+            value={value} 
+            onChange={(e) => onChange(e.target.value)}
+        />
     );
 }
 
