@@ -1,18 +1,83 @@
 import './App.css'
-import { MOVIES } from './mocks/movies'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import HomePage from './pages/home'
+import Login from './pages/Login'
+import SignUp from './pages/sign-up'
+import Search from './pages/search'
+import Movies from './pages/movies'
+import NotFound from './pages/not-found'
+import RootLayout from './layout/root-layout'
+import NowPlaying from './pages/now-playing'
+import Popular from './pages/popular'
+import TopRated from './pages/top-rated'
+import UpComing from './pages/up-coming'
+// import { MOVIES } from './mocks/movies'
+
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <RootLayout/>,
+    errorElement: <NotFound/>,
+    children: [
+      {
+        index: true,
+        element: <HomePage/>
+      },
+      {
+        path: 'login',
+        element: <Login/>
+      },
+      {
+        path: 'sign-up',
+        element: <SignUp/>
+      },
+      {
+        path: 'search',
+        element: <Search/>
+      },
+      {
+        path: 'movies',
+        element: <Movies/>
+      }
+    ]
+  },
+  {
+    path: '/movies',
+    element: <RootLayout/>,
+    errorElement: <NotFound />,
+    children: [
+      {
+        index: true,
+        element: <Movies/>
+      },
+      {
+        path: 'now-playing',
+        element: <NowPlaying/>
+      }
+      ,
+      {
+        path: 'popular',
+        element: <Popular/>
+      }
+      ,
+      {
+        path: 'top-rated',
+        element: <TopRated/>
+      }
+      ,
+      {
+        path: 'up-coming',
+        element: <UpComing/>
+      }
+    ]
+  },
+])
 
 function App() {
-
-  return (
-    <div className='moviesContainer'>
-      {MOVIES.results.map((movie) => (
-        <div key={movie.id} className='movieItem'>
-          <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt='영화 포스터' />
-          <div className='overView'/>
-        </div>
-      ))}
-    </div>
-  )
+  return( 
+      <RouterProvider router={router} />
+  );
 }
 
 export default App
