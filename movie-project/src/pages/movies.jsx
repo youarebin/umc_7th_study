@@ -1,6 +1,24 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
+const Movies = () => {
+    const navigate = useNavigate();
+
+    return (
+        <Container>
+            <div className="title">카테고리</div>
+            <CategoryWrapper>
+                <div className="red category" onClick={() => navigate('/movies/now-playing')}>현재 상영중인</div>
+                <div className="orange category" onClick={() => navigate('/movies/popular')}> 인기있는</div>
+                <div className="yellow category" onClick={() => navigate('/movies/top-rated')}>높은 평가를 받은</div>
+                <div className="green category" onClick={() => navigate('/movies/up-coming')}>개봉 예정중인</div>                
+            </CategoryWrapper>
+        </Container>
+    );
+};
+
+export default Movies;
+
 const Container = styled.div`
     width: calc(100vw - 200px); // SideBar 너비만큼 제외
     height: calc(100vh - 70px); // Navbar 높이만큼 제외
@@ -40,21 +58,3 @@ const CategoryWrapper = styled.div`
         cursor: pointer;
     }
 `;
-
-const Movies = () => {
-    const navigate = useNavigate();
-
-    return (
-        <Container>
-            <div className="title">카테고리</div>
-            <CategoryWrapper>
-                <div className="red category" onClick={() => navigate('/movies/now-playing')}>현재 상영중인</div>
-                <div className="orange category" onClick={() => navigate('/movies/popular')}> 인기있는</div>
-                <div className="yellow category" onClick={() => navigate('/movies/top-rated')}>높은 평가를 받은</div>
-                <div className="green category" onClick={() => navigate('/movies/up-coming')}>개봉 예정중인</div>                
-            </CategoryWrapper>
-        </Container>
-    );
-};
-
-export default Movies;

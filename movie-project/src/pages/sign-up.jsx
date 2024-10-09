@@ -1,12 +1,13 @@
 import styled from "styled-components";
 
 const Container = styled.div`
-    width: 100vw;
-    height: 100vh;
+    width: calc(100vw - 200px); // SideBar 너비만큼 제외
+    height: calc(100vh - 70px); // Navbar 높이만큼 제외
     background-color: black;
-    padding-top: 70px;
-    padding-left: 200px;
+    margin-top: 70px; // Navbar 높이만큼 여백 추가
+    margin-left: 200px; // SideBar 너비만큼 여백 추가
     color: white;
+    overflow-y: auto;
 `
 
 const SignUp = () => {

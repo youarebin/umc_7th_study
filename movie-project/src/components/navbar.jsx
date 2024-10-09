@@ -2,6 +2,24 @@
 import {Link} from "react-router-dom";
 import styled from "styled-components";
 
+const Navbar = () => {
+    return (
+        <Nav>
+            <Link to={'/'}>YONGCHA</Link>
+            <Right>
+                <div>
+                    <Link to='/login'>로그인</Link>                
+                </div>
+                <SignUpWrapper>
+                    <Link to='/sign-up'>회원가입</Link>                
+                </SignUpWrapper>
+            </Right>
+        </Nav>
+    );
+};
+
+export default Navbar;
+
 const Nav = styled.nav`
     display: flex;
     position: fixed;
@@ -51,22 +69,8 @@ const SignUpWrapper = styled.div`
     border-radius: 5px;
     width: 90px;
     height: 40px;
+
+    &:hover {
+        background-color: blue;
+    }
 `;
-
-const Navbar = () => {
-    return (
-        <Nav>
-            <Link to={'/'}>YONGCHA</Link>
-            <Right>
-                <div>
-                    <Link to='/login'>로그인</Link>                
-                </div>
-                <SignUpWrapper>
-                    <Link to='/sign-up'>회원가입</Link>                
-                </SignUpWrapper>
-            </Right>
-        </Nav>
-    );
-};
-
-export default Navbar;
