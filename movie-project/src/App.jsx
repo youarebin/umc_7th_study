@@ -1,7 +1,7 @@
 import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import HomePage from './pages/home'
-import Login from './pages/Login'
+import Login from './pages/login'
 import SignUp from './pages/sign-up'
 import Search from './pages/search'
 import Movies from './pages/movies'
@@ -11,6 +11,7 @@ import NowPlaying from './pages/now-playing'
 import Popular from './pages/popular'
 import TopRated from './pages/top-rated'
 import UpComing from './pages/up-coming'
+import MovieDetail from './pages/movie-detail'
 // import { MOVIES } from './mocks/movies'
 
 
@@ -69,6 +70,11 @@ const router = createBrowserRouter([
       {
         path: 'up-coming',
         element: <UpComing/>
+      }
+      ,
+      {
+        path: ':movieId',
+        element: <MovieDetail/>
       }
     ]
   },
