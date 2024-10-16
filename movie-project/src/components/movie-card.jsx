@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 const MovieCard = ({movie}) => {
     const navigate = useNavigate();
@@ -15,6 +16,15 @@ const MovieCard = ({movie}) => {
         </MovieItem>
     );
 }
+
+MovieCard.propTypes = {
+    movie: PropTypes.shape({
+        id: PropTypes.number.isRequired,      
+        poster_path: PropTypes.string,       
+        title: PropTypes.string,             
+        release_date: PropTypes.string        
+    }).isRequired,        
+}                  
 
 export default MovieCard;
 
