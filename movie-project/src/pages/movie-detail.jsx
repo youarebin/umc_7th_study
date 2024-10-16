@@ -85,7 +85,7 @@ const Gradient = styled.div` //그라데이션
         left: 0;
         right: 0;
         border-radius: 20px; /* 이미지와 동일하게 테두리를 적용 */
-        background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8) 40%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
+        background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8) 40%, rgba(0, 0, 0, 0.5) 50%, transparent 70%);
     }
 `;
 
