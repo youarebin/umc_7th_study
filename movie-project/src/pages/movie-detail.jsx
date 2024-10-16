@@ -25,17 +25,21 @@ const MovieDetail = () => {
     return (
         <div>
             <TopContainer>
-                <InfoWrapper>
+
+                    <InfoWrapper>
                     <h1>{movies.data?.title}</h1>
                     <div>평균: {movies.data?.vote_average}</div>
                     <div>{movies.data?.release_date}</div>
                     <div>{movies.data?.runtime}</div>
                     <div className="tagline">{movies.data?.tagline}</div>
                     <div>{movies.data?.overview}</div>
-                </InfoWrapper>
-                <BackdropPathWrapper>
-                    <img src={`https://image.tmdb.org/t/p/w500${movies.data?.backdrop_path}`} alt='영화 포스터' />
-                </BackdropPathWrapper>                
+                    </InfoWrapper>
+                    <Gradient>
+                                          <BackdropPathWrapper>
+                        <img src={`https://image.tmdb.org/t/p/w500${movies.data?.backdrop_path}`} alt='영화 포스터' />
+                    </BackdropPathWrapper> 
+                    </Gradient>
+                  
             </TopContainer>
 
             <BottomContainer>
@@ -66,7 +70,27 @@ const TopContainer = styled.div`
     position: relative;
 `;
 
+const Gradient = styled.div` //그라데이션
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    ::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-radius: 20px; /* 이미지와 동일하게 테두리를 적용 */
+        background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8) 40%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
+    }
+`;
+
 const InfoWrapper = styled.div`
+    z-index: 2;
     position: absolute;
     bottom: 0;
     top: 0;
@@ -79,29 +103,17 @@ const InfoWrapper = styled.div`
         font-size: 20px;
         padding: 15px 0;
     }
-    border-bottom: solid 2px white;
 `;
 
 const BackdropPathWrapper = styled.div`
     height: 100%;
-    ::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        border-radius: 20px; /* 이미지와 동일하게 테두리를 적용 */
-        background: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.8));
-        z-index: 3;
-    }
     img {
         width: 100%;
         height: 100%;
         // object-fit: cover; /* div 크기에 맞춰 이미지가 꽉 차도록 */
         border-radius: 20px;
     }
-        
+     
 `;
 
 const BottomContainer = styled.div`
