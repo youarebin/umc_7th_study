@@ -40,14 +40,23 @@ function validateLogin(values) {
 
 const validateSignup = (values) => {
     const errors = validateUser(values);
-    const signupErrors = {...errors, passwordCheck: ''};
+    const signupErrors = {...errors, passwordCheck: '', age: ''};
   
-    if(!values.passwordCheck){
+    if (!values.passwordCheck) {
         signupErrors.passwordCheck = '비밀번호 검증 또한 필수 입력요소입니다.'
-    }
-    if (values.password !== values.passwordCheck) {
+    } else if (values.password !== values.passwordCheck) {
       signupErrors.passwordCheck = '비밀번호가 일치하지 않습니다.';
     }
+
+    if (!values.age) {
+        signupErrors.age = '나이는 필수 입력요소입니다.'
+    } if(isNaN(values.age)) {
+        signupErrors.age = '나이는 숫자로 입력해주세요.'
+    } else if(values.age < 0) {
+        signupErrors.age = '나이는 양수여야 합니다.'
+    } else if(values.age < 20) {
+        signupErrors.age = '19세 이상만 사용가능합니다.'
+    } 
   
     return signupErrors;
   };
