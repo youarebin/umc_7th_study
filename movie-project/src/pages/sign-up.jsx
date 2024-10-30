@@ -8,6 +8,7 @@ const SignUp = () => {
             email: '',
             password: '',
             passwordCheck: '',
+            ageCheck: '',
         },
         validate: validateSignup
     });
@@ -24,6 +25,16 @@ const SignUp = () => {
                     {...signUp.getTextInputProps('email')}
                 />
                 {signUp.touched.email && signUp.errors.email && <ErrorMsg>{signUp.errors.email}</ErrorMsg>}
+            </InputWrapper>
+            <InputWrapper>
+                <Input 
+                    error={signUp.errors.age}
+                    touched={signUp.touched.age}
+                    type="text"
+                    placeholder="나이를 입력해주세요!" 
+                    {...signUp.getTextInputProps('age')}
+                />
+                {signUp.touched.age && signUp.errors.age && <ErrorMsg>{signUp.errors.age}</ErrorMsg>}
             </InputWrapper>
             <InputWrapper>
                 <Input 
