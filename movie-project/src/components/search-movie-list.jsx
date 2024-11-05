@@ -3,13 +3,17 @@ import useCustomFetch from "../hooks/useCustomFetch";
 import { useSearchParams } from "react-router-dom";
 import CardListSkeleton from "../components/Skeleton/card-list-skeleton";
 import MovieCard from "./movie-card";
+import useDebounce from "../components/debounce";
 
 const SearchMovieList = () => {
     const [searchParam, setSearchParams] = useSearchParams({
         mq: ''
     });
     const mq = searchParam.get('mq');
-    const url = `/search/movie?query=${mq}&include_adult=false&language=ko-KR&page=1`;
+
+    const debounceText = useDebounce(mq, 200);
+
+    const url = `/search/movie?query=${debounceText}&include_adult=false&language=ko-KR&page=1`;
     const {data: movies, isLoading, isError} = useCustomFetch(url);
 
     if(isLoading){
