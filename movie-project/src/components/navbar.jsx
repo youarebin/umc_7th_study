@@ -1,18 +1,57 @@
 // navbar.jsx
+import axios from "axios";
+import { useState, useEffect } from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
 
 const Navbar = () => {
+    const [userInfo, setUserInfo] = useState(null);
+
+    useEffect(() => {
+        const UserInfo = async() => {
+            const accessToken = localStorage.getItem('accessToken');
+
+            if(!accessToken) {
+                alert('로그인을 해야합니다');
+            }
+
+            try{
+                const response = axios.get('http://localhost:3000/user/me', {
+                    headers: {
+                        Authorization:`Bearer ${accessToken}`,
+                    }
+                });
+                setUserInfo(response.data);
+            } catch(error) {
+                console.error(error);
+            }
+        }
+    }, []);
+
+    const handleLogout = () => {
+        // 토큰 삭제
+        localStorage.removeItem('accessToken'); 
+        localStorage.removeItem('refreshToken')
+        setUserInfo(null); // 유저 정보 초기화
+    };
+
     return (
         <Nav>
             <Link to={'/'}>YONGCHA</Link>
             <Right>
-                <div>
-                    <Link to='/login'>로그인</Link>                
-                </div>
-                <SignUpWrapper>
-                    <Link to='/sign-up'>회원가입</Link>                
-                </SignUpWrapper>
+                {userInfo ? (
+                    <>
+                        <span>{userInfo.email}님 반갑습니다.</span>
+                        <button onClick={handleLogout}>로그아웃</button>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/login">로그인</Link>
+                        <SignUpWrapper>
+                            <Link to="/sign-up">회원가입</Link>
+                        </SignUpWrapper>
+                    </>
+                )}
             </Right>
         </Nav>
     );
