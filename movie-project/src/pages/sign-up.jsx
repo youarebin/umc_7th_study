@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import useForm from "../hooks/use-form";
 import { validateSignup } from "../utils/validate";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignUp = () => {
     const signUp = useForm({
@@ -8,13 +10,39 @@ const SignUp = () => {
             email: '',
             password: '',
             passwordCheck: '',
-            ageCheck: '',
+            // ageCheck: '',
         },
         validate: validateSignup
     });
 
+    const navigate = useNavigate();
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if (signUp.isValid) {
+
+            console.log("Form submitted with:", signUp.values);
+            // 로그인 API 호출 등을 처리할 수 있습니다.
+            try {
+                await axios.post("http://localhost:3000/auth/register", {
+                    email: signUp.values.email,
+                    password: signUp.values.password,
+                    passwordCheck: signUp.values.passwordCheck,
+                  });
+                  alert("회원가입에 성공했습니다!");
+                  navigate("/login");
+            } catch(error) {
+                console.error('네트워크 오류:', error);
+                alert('회원가입에 실패했습니다')
+            }
+
+        } else {
+            console.log("Validation errors:", signUp.errors);
+        }
+    };
+
     return (
-        <Container>
+        <Container onSubmit={handleSubmit}>
             <h2>회원가입</h2>
             <InputWrapper>
                 <Input 
@@ -26,7 +54,7 @@ const SignUp = () => {
                 />
                 {signUp.touched.email && signUp.errors.email && <ErrorMsg>{signUp.errors.email}</ErrorMsg>}
             </InputWrapper>
-            <InputWrapper>
+            {/* <InputWrapper>
                 <Input 
                     error={signUp.errors.age}
                     touched={signUp.touched.age}
@@ -35,7 +63,7 @@ const SignUp = () => {
                     {...signUp.getTextInputProps('age')}
                 />
                 {signUp.touched.age && signUp.errors.age && <ErrorMsg>{signUp.errors.age}</ErrorMsg>}
-            </InputWrapper>
+            </InputWrapper> */}
             <InputWrapper>
                 <Input 
                     error={signUp.errors.password}
@@ -56,7 +84,11 @@ const SignUp = () => {
                 />
                 {signUp.touched.passwordCheck && signUp.errors.passwordCheck && <ErrorMsg>{signUp.errors.passwordCheck}</ErrorMsg>}
             </InputWrapper>
-            <Submit type={'submit'} value="회원가입" />
+            <Submit 
+                type="submit" 
+                disabled = {!signUp.isValid}
+                value="회원가입" 
+            />
         </Container>
     );
 };
@@ -100,14 +132,11 @@ const Submit = styled.input`
     padding: 0;
     border: none;
     border-radius: 10px;
-    background-color: #f92f63;
+    background-color: ${(props) => (props.disabled ? 'gray' : '#f92f63')};
     color: white;
     font-size: 15px;
-    cursor: pointer;
-    :&hover{
-        background-color: #004caa;
-    }
-    &:disabled{
-        background-color: gray;
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+    &:hover {
+        background-color: ${(props) => (props.disabled ? 'gray' : 'blue')};
     }
 `;

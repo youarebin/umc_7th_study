@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import useForm from "../hooks/use-form";
 import { validateLogin } from "../utils/validate";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
     // const schema = yup.object().shape({
@@ -30,8 +32,39 @@ const Login = () => {
         validate: validateLogin
     });
 
+    const navigate = useNavigate();
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if (login.isValid) {
+
+            console.log("Form submitted with:", login.values);
+            // 로그인 API 호출 등을 처리할 수 있습니다.
+            try {
+                const response = await axios.post("http://localhost:3000/auth/register", {
+                    email: login.values.email,
+                    password: login.values.password,
+                  });
+                  //토큰 저장
+                  const refreshToken = response.data.refreshToken;
+                  const accessToken = response.data.accessToken;
+                  localStorage.setItem("refreshToken", refreshToken); 
+                  localStorage.setItem("accessToken", accessToken);
+
+                  alert("로그인에 성공했습니다!");
+                  navigate("/");
+            } catch(error) {
+                console.error('네트워크 오류:', error);
+                alert("로그인에 실패했습니다.");
+            }
+            
+        } else {
+            console.log("Validation errors:", login.errors);
+        }
+    };
+
     return (
-        <Container>
+        <Container onSubmit={handleSubmit}>
                 <h2>로그인</h2> 
                 {/* <Input 
                     type={'email'} 
@@ -69,7 +102,11 @@ const Login = () => {
                     {login.touched.password && login.errors.password && <ErrorMsg>{login.errors.password}</ErrorMsg>}            
                 </InputWrapper>
 
-                <Submit type={'submit'} value="로그인" />
+                <Submit 
+                type="submit" 
+                disabled = {!login.isValid}
+                value="로그인" 
+            />
 
         </Container>
     );
@@ -113,14 +150,11 @@ const Submit = styled.input`
     padding: 0;
     border: none;
     border-radius: 10px;
-    background-color: #f92f63;
+    background-color: ${(props) => (props.disabled ? 'gray' : '#f92f63')};
     color: white;
     font-size: 15px;
-    cursor: pointer;
-    :&hover{
-        background-color: #004caa;
-    }
-    &:disabled{
-        background-color: gray;
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+    &:hover {
+        background-color: ${(props) => (props.disabled ? 'gray' : 'blue')};
     }
 `;
