@@ -1,48 +1,62 @@
 // navbar.jsx
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
+import { LoginContext } from "../context/LoginContext";
 
 const Navbar = () => {
-    const [userInfo, setUserInfo] = useState(null);
+    // const [userInfo, setUserInfo] = useState(null);
+    // const [isLogin, setIsLogin] = useState(false);
 
-    useEffect(() => {
-        const UserInfo = async() => {
-            const accessToken = localStorage.getItem('accessToken');
+    // useEffect(() => {
+    //     const UserInfo = async() => {
+    //         const accessToken = localStorage.getItem('accessToken');
 
-            if(!accessToken) {
-                alert('로그인을 해야합니다');
-            }
+    //         if(!accessToken) return;
 
-            try{
-                const response = axios.get('http://localhost:3000/user/me', {
-                    headers: {
-                        Authorization:`Bearer ${accessToken}`,
-                    }
-                });
-                setUserInfo(response.data);
-            } catch(error) {
-                console.error(error);
-            }
-        }
-    }, []);
+    //         try{
+    //             const response = await axios.get('http://localhost:3000/user/me', {
+    //                 headers: {
+    //                     Authorization:`Bearer ${accessToken}`,
+    //                 }
+    //             });
+    //             setUserInfo(response.data);
+    //             setIsLogin(true);
+    //         } catch(error) {
+    //             console.error(error);
+    //         }
+    //     }
+    //     UserInfo();
+    // }, [isLogin]);
+    // console.log(isLogin)
 
-    const handleLogout = () => {
-        // 토큰 삭제
-        localStorage.removeItem('accessToken'); 
-        localStorage.removeItem('refreshToken')
-        setUserInfo(null); // 유저 정보 초기화
-    };
+    // const handleLogout = () => {
+    //     if(isLogin) {
+    //         // 토큰 삭제
+    //         localStorage.removeItem('accessToken'); 
+    //         localStorage.removeItem('refreshToken')
+    //         setIsLogin(false);
+    //         setUserInfo(null); // 유저 정보 초기화
+    //     } else {
+    //         setIsLogin(false);
+    //     }
+
+    // };
+    const {
+        userInfo,
+        isLogin,
+        handleLogout
+      } = useContext(LoginContext);
 
     return (
         <Nav>
             <Link to={'/'}>YONGCHA</Link>
             <Right>
-                {userInfo ? (
+                {isLogin ? (
                     <>
-                        <span>{userInfo.email}님 반갑습니다.</span>
-                        <button onClick={handleLogout}>로그아웃</button>
+                        <span className="email">{userInfo.email.split('@')[0]}님 반갑습니다.</span>
+                        <div className="logout" onClick={handleLogout}>로그아웃</div>
                     </>
                 ) : (
                     <>
@@ -98,6 +112,15 @@ const Right = styled.div`
         margin: 0 5px;
         font-size: 15px;
     }
+
+    .email {
+        color: white;
+        font-weight: bold;
+    }
+    .logout {
+        color: white;
+        cursor: pointer;
+    }
 `;
 
 const SignUpWrapper = styled.div`
@@ -112,4 +135,8 @@ const SignUpWrapper = styled.div`
     &:hover {
         background-color: blue;
     }
+`;
+
+const Email = styled.span`
+    color: white;
 `;
