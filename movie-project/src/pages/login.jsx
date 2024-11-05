@@ -41,7 +41,7 @@ const Login = () => {
             console.log("Form submitted with:", login.values);
             // 로그인 API 호출 등을 처리할 수 있습니다.
             try {
-                const response = await axios.post("http://localhost:3000/auth/register", {
+                const response = await axios.post("http://localhost:3000/auth/login", {
                     email: login.values.email,
                     password: login.values.password,
                   });
