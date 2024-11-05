@@ -6,6 +6,7 @@ import SearchMovieList from "../components/search-movie-list";
 const Search = () => {
     const navigate = useNavigate();
     const [searchValue, setSearchValue] = useState('');
+
     const onChangeSearchValue = (event) => {
         setSearchValue(event.target.value);
     }
@@ -69,11 +70,4 @@ const SearchBtn = styled.button`
     background-color: #e83261;
     color: white;
     cursor: pointer;
-`;
-
-const MoviesContainer = styled.div`
-    margin-top: 30px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    grid-gap: 15px;
 `;
