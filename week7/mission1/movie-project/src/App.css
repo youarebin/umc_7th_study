@@ -1,0 +1,24 @@
+.moviesContainer {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-gap: 30px;
+}
+
+.movieItem {
+  position: relative; /*부모 요소*/
+  cursor: pointer;
+    img {
+    border-radius: 30px;
+  }
+
+  &:hover .overView{
+    display: block; 
+    position: absolute; /*자식 요소: 부모로부터 위치 맞추기*/
+    top: 0;
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    border-radius: 30px;/*img와 같이*/
+    background-color: rgba(0, 0, 0, 0.6); /* 배경색 및 투명도 설정 */
+  }
+}
