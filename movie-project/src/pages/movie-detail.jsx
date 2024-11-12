@@ -1,12 +1,27 @@
 import styled from "styled-components";
 import useCustomFetch from "../hooks/useCustomFetch";
 import { useParams } from "react-router-dom";
+import { useQuery } from '@tanstack/react-query';
+import { axiosInstance } from "../apis/axios-instance"
 
 const MovieDetail = () => {
     const {movieId} = useParams();
 
-    const {data: movies, isLoading, isError} = useCustomFetch(`/movie/${movieId}?language=ko-k`);
-    const {data: actors} = useCustomFetch(`/movie/${movieId}/credits?language=ko-k`);
+    // const {data: movies, isLoading, isError} = useCustomFetch(`/movie/${movieId}?language=ko-k`);
+    // const {data: actors} = useCustomFetch(`/movie/${movieId}/credits?language=ko-k`);
+
+    const {data: movies, isLoading, isError} = useQuery({
+        queryKey: ['movies', 'movie'],
+        queryFn: async () => {
+            return await axiosInstance.get(`https://api.themoviedb.org/3/movie/${movieId}?language=ko-k`);
+        }
+    });
+    const {data: actors} = useQuery({
+        queryKey: ['movies', 'credits'],
+        queryFn: async () => {
+            return await axiosInstance.get(`https://api.themoviedb.org/3/movie/${movieId}/credits?language=ko-k`);
+        }
+    });
 
     if (isLoading) {
         return(

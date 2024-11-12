@@ -1,53 +1,8 @@
 // navbar.jsx
-import axios from "axios";
-import { useContext, useState, useEffect } from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
-import { LoginContext } from "../context/LoginContext";
 
-const Navbar = () => {
-    // const [userInfo, setUserInfo] = useState(null);
-    // const [isLogin, setIsLogin] = useState(false);
-
-    // useEffect(() => {
-    //     const UserInfo = async() => {
-    //         const accessToken = localStorage.getItem('accessToken');
-
-    //         if(!accessToken) return;
-
-    //         try{
-    //             const response = await axios.get('http://localhost:3000/user/me', {
-    //                 headers: {
-    //                     Authorization:`Bearer ${accessToken}`,
-    //                 }
-    //             });
-    //             setUserInfo(response.data);
-    //             setIsLogin(true);
-    //         } catch(error) {
-    //             console.error(error);
-    //         }
-    //     }
-    //     UserInfo();
-    // }, [isLogin]);
-    // console.log(isLogin)
-
-    // const handleLogout = () => {
-    //     if(isLogin) {
-    //         // 토큰 삭제
-    //         localStorage.removeItem('accessToken'); 
-    //         localStorage.removeItem('refreshToken')
-    //         setIsLogin(false);
-    //         setUserInfo(null); // 유저 정보 초기화
-    //     } else {
-    //         setIsLogin(false);
-    //     }
-
-    // };
-    const {
-        userInfo,
-        isLogin,
-        handleLogout
-      } = useContext(LoginContext);
+const Navbar = ({isLogin, nickname, logout}) => {
 
     return (
         <Nav>
@@ -55,8 +10,8 @@ const Navbar = () => {
             <Right>
                 {isLogin ? (
                     <>
-                        <span className="email">{userInfo.email.split('@')[0]}님 반갑습니다.</span>
-                        <div className="logout" onClick={handleLogout}>로그아웃</div>
+                        <span className="email">{nickname}님 반갑습니다.</span>
+                        <div className="logout" onClick={logout}>로그아웃</div>
                     </>
                 ) : (
                     <>

@@ -3,7 +3,7 @@ import useCustomFetch from "../hooks/useCustomFetch";
 import { useSearchParams } from "react-router-dom";
 import CardListSkeleton from "../components/Skeleton/card-list-skeleton";
 import MovieCard from "./movie-card";
-import useDebounce from "../components/debounce";
+import useDebounce from "../hooks/debounce";
 
 const SearchMovieList = () => {
     const [searchParam, setSearchParams] = useSearchParams({

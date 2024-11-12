@@ -3,6 +3,7 @@ import useForm from "../hooks/use-form";
 import { validateLogin } from "../utils/validate";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../context/LoginContext";
 
 const Login = () => {
     // const schema = yup.object().shape({
@@ -32,6 +33,8 @@ const Login = () => {
         validate: validateLogin
     });
 
+    const { Login } = useAuth();
+
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
@@ -50,8 +53,8 @@ const Login = () => {
                   const accessToken = response.data.accessToken;
                   localStorage.setItem("refreshToken", refreshToken); 
                   localStorage.setItem("accessToken", accessToken);
+                  Login();
 
-                  alert("로그인에 성공했습니다!");
                   navigate("/");
             } catch(error) {
                 console.error('네트워크 오류:', error);

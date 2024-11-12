@@ -12,7 +12,7 @@ import Popular from './pages/popular'
 import TopRated from './pages/top-rated'
 import UpComing from './pages/up-coming'
 import MovieDetail from './pages/movie-detail'
-// import { MOVIES } from './mocks/movies'
+import { AuthProvider } from './context/LoginContext'
 
 
 const router = createBrowserRouter([
@@ -82,7 +82,10 @@ const router = createBrowserRouter([
 
 function App() {
   return( 
-      <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />           
+    </AuthProvider>
+
   );
 }
 
