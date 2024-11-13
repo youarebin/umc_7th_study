@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import useCustomFetch from "../hooks/useCustomFetch";
+// import useCustomFetch from "../hooks/useCustomFetch";
 import { useParams } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
 import { axiosInstance } from "../apis/axios-instance"
@@ -45,14 +45,14 @@ const MovieDetail = () => {
                     <h1>{movies.data?.title}</h1>
                     <div>평균: {movies.data?.vote_average}</div>
                     <div>{movies.data?.release_date}</div>
-                    <div>{movies.data?.runtime}</div>
+                    <div>{movies.data?.runtime}분</div>
                     <div className="tagline">{movies.data?.tagline}</div>
                     <div>{movies.data?.overview}</div>
                     </InfoWrapper>
                     <Gradient>
-                                          <BackdropPathWrapper>
-                        <img src={`https://image.tmdb.org/t/p/w500${movies.data?.backdrop_path}`} alt='영화 포스터' />
-                    </BackdropPathWrapper> 
+                        <BackdropPathWrapper>
+                            <img src={`https://image.tmdb.org/t/p/w500${movies.data?.backdrop_path}`} alt='영화 포스터' />
+                        </BackdropPathWrapper> 
                     </Gradient>
                   
             </TopContainer>
@@ -112,6 +112,8 @@ const InfoWrapper = styled.div`
     left: 0;
     width: 450px;
     height: 100%;
+    border-bottom:2px solid white;
+    overflow: hidden;
     .tagline {
         font-style: italic;
         font-weight: bold;
@@ -137,7 +139,7 @@ const BottomContainer = styled.div`
 
 const PeopleContainer = styled.div`
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     grid-gap: 15px;
 `;
 

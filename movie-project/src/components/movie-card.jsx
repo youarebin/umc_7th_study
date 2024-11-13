@@ -43,7 +43,6 @@ const MovieItem = styled.div`
         left: 0; 
         width: 100%; 
         height: 100%;
-        border-radius: 10px;/*img와 같이*/
         background-color: rgba(0, 0, 0, 0.6); /* 배경색 및 투명도 설정 */
     }
 `;
