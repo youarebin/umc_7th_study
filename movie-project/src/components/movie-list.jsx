@@ -6,69 +6,6 @@ import CardListSkeleton from "./Skeleton/card-list-skeleton";
 import Spinner from "./spinner";
 
 const MovieList = ({url, query}) => {
-    //2) useInfiniteQuery: 무한 페이지 로딩
-    // const {data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage} = useFetch(url);
-    // const loadMoreRef = useRef(null);
-    
-    // useEffect(() => {
-    //     if(!hasNextPage || isFetchingNextPage)  return;
-
-    //     //ointersection observer 인스턴스 생성
-    //     const observer = new IntersectionObserver(
-    //         (entries) => {
-    //             if(entries[0].isIntersecting && !isFetchingNextPage) {
-    //                 fetchNextPage();
-    //             }
-    //         },
-    //         {
-                
-    //             threshold: 0.5,
-    //         }
-    //     );
-
-    //     // loadMoreRef가 화면에 보일 때 observer 활성화
-    //     if (loadMoreRef.current) {
-    //         observer.observe(loadMoreRef.current);
-    //     }
-
-    //     // observer 해제
-    //     return () => {
-    //         if (loadMoreRef.current) {
-    //             observer.unobserve(loadMoreRef.current);
-    //         }
-    //     };
-    // }, [fetchNextPage, hasNextPage, isFetchingNextPage])
-
-    // if (isLoading) {
-    //     return (
-    //         <MoviesContainer>
-    //             <CardListSkeleton number={20}/>
-    //         </MoviesContainer>
-    //     )
-    // }
-    // if (isError) {
-    //     return(
-    //         <div>
-    //             <h1>에러</h1>
-    //         </div>
-    //     );
-    // }
-
-    // const movies = data ? data.pages.flatMap(page => page.results) : [];
-    
-    // return (
-    //     <MoviesContainer>
-    //         {movies.map((movie) => (
-    //             <MovieCard 
-    //                 key = {movie.id}
-    //                 movie = {movie}
-    //             />
-    //         ))}
-    //         <div ref={loadMoreRef} style={{ height: "1px" }} />
-    //         {isFetchingNextPage && <Spinner/>}
-    //     </MoviesContainer>
-    // );
-
     const [page, setPage] = useState(1);
     const { data, totalPages, isLoading, error } = useFetch(url, page);
 
