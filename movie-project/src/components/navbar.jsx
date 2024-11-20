@@ -6,7 +6,10 @@ const Navbar = ({isLogin, nickname, logout}) => {
 
     return (
         <Nav>
-            <Link to={'/'}>YONGCHA</Link>
+            <div>
+                <Link to={'/'}>YONGCHA</Link>
+                <Link to={'/subscribe'}>구독</Link>                
+            </div>
             <Right>
                 {isLogin ? (
                     <>
