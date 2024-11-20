@@ -4,7 +4,16 @@ import { validateLogin } from "../utils/validate";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/LoginContext";
-import { useMutation } from "react-query";
+import {useMutation} from '@tanstack/react-query'
+
+const postLogin = async({email, password}) => {
+    const {data} = await axios.post("http://localhost:3000/auth/login", {
+        email,
+        password,
+    });
+
+    return data;
+}
 
 const Login = () => {
     const login = useForm({
@@ -17,37 +26,26 @@ const Login = () => {
 
     const { Login } = useAuth();
     const navigate = useNavigate();
-    const mutation = useMutation(
-        async (credentials) => {
-        const response = await axios.post("http://localhost:3000/auth/login", credentials);
-        return response.data;
-    }, {
+
+    const {mutate: loginMutation} = useMutation({
+        mutationFn: postLogin,
         onSuccess: (data) => {
-            // 로그인 성공 시
             const { accessToken, refreshToken } = data;
             localStorage.setItem("accessToken", accessToken);
             localStorage.setItem("refreshToken", refreshToken);
             Login();
-            navigate("/"); // 로그인 후 홈으로 이동
+            navigate('/');
         },
-        onError: (error) => {
-            // 로그인 실패 시
-            console.error('로그인 오류:', error);
-            alert("로그인에 실패했습니다.");
-        },
-    });
+        onError: (error) => {console.log('로그인 실패', error)},
+        onSettled: () => {},
+    })
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (login.isValid) {
-            // 로그인 API 호출
-            mutation.mutate({
-                email: login.values.email,
-                password: login.values.password,
-            });
-        } else {
-            console.log("Validation errors:", login.errors);
-        }
+        loginMutation({
+            email: login.values.email,
+            password: login.values.password,
+        });
     };
 
     return (
