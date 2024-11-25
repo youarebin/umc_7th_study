@@ -13,6 +13,7 @@ import TopRated from './pages/top-rated'
 import UpComing from './pages/up-coming'
 import MovieDetail from './pages/movie-detail'
 import Subscribe from './pages/subscribe'
+import GenreMovieList from './components/genre-movie-list'
 import { AuthProvider } from './context/LoginContext'
 
 
@@ -82,6 +83,17 @@ const router = createBrowserRouter([
       }
     ]
   },
+  {
+    path: '/genre',
+    element: <RootLayout/>,
+    errorElement: <NotFound />,
+    children: [
+      {
+        path: ':genreId',
+        element: <GenreMovieList url={'/discover/movie'}/>
+      }
+    ]
+  }
 ])
 
 function App() {

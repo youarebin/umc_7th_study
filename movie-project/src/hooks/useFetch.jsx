@@ -47,12 +47,13 @@ import { axiosInstance } from "../apis/axios-instance"
 // };
 
 //2) Pagination
-const useFetch = (url, page=1) => {
+const useFetch = (url="", page=1, genreId=null) => {
     const fetchData = async () => {
         if (url) {
             const response = await axiosInstance.get(url, {
                 params: {
-                    page: page
+                    page,
+                    genreId,
                 },
             });
             return {
