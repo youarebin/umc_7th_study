@@ -1,41 +1,42 @@
 import styled from "styled-components";
-import axios from "axios";
-import { useState, useEffect } from "react";
-
-const Container = styled.div`
-    color: white;
-`
+import { useQuery } from '@tanstack/react-query';
+import { axiosInstance } from '../apis/axios-instance';
+import MovieCard2 from "../components/movie-card2";
 
 const HomePage = () => {
-    const [userInfo, setUserInfo] = useState(null);
-
-    useEffect(() => {
-        const UserInfo = async() => {
-            const accessToken = localStorage.getItem('accessToken');
-
-            if(!accessToken) {
-                alert('로그인을 해야합니다');
-            }
-
-            try{
-                const response = axios.get('http://localhost:3000/user/me', {
-                    headers: {
-                        Authorization:`Bearer ${accessToken}`,
-                    }
-                });
-                setUserInfo(response.data);
-            } catch(error) {
-                console.error(error);
-            }
+    const {data: movies, isLoading, isError} = useQuery({
+        queryKey: ['movies', 'trending'],
+        queryFn: async () => {
+            return await axiosInstance.get(`/trending/movie/day?language=ko-kr`);
         }
-    }, []);
+    });
 
     return (
         <Container>
-            <div>Home Page 야호~!</div>
+            <h3>Trending movies</h3>
+            <MoviesWrapper>
+            {movies?.data.results.map((movie) => (
+                <MovieCard2 
+                    key={movie.id} 
+                    movie={movie}
+                />
+            ))}                
+            </MoviesWrapper>
         </Container>
 
     );
 };
 
 export default HomePage;
+
+const Container = styled.div`
+    color: white;
+`
+
+const MoviesWrapper = styled.div`
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 15px;
+    max-width: 100%; /* 최대로 컨테이너의 가로에 맞춤 */
+`

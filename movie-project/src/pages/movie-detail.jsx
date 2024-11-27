@@ -1,5 +1,4 @@
-import styled from "styled-components";
-// import useCustomFetch from "../hooks/useCustomFetch";
+import * as M from '../styles/movie-detail.style';
 import { useParams } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
 import { axiosInstance } from "../apis/axios-instance"
@@ -7,19 +6,22 @@ import { axiosInstance } from "../apis/axios-instance"
 const MovieDetail = () => {
     const {movieId} = useParams();
 
-    // const {data: movies, isLoading, isError} = useCustomFetch(`/movie/${movieId}?language=ko-k`);
-    // const {data: actors} = useCustomFetch(`/movie/${movieId}/credits?language=ko-k`);
-
     const {data: movies, isLoading, isError} = useQuery({
         queryKey: ['movies', 'movie'],
         queryFn: async () => {
-            return await axiosInstance.get(`https://api.themoviedb.org/3/movie/${movieId}?language=ko-k`);
+            return await axiosInstance.get(`/movie/${movieId}?language=ko-k`);
         }
     });
     const {data: actors} = useQuery({
         queryKey: ['movies', 'credits'],
         queryFn: async () => {
-            return await axiosInstance.get(`https://api.themoviedb.org/3/movie/${movieId}/credits?language=ko-k`);
+            return await axiosInstance.get(`/movie/${movieId}/credits?language=ko-k`);
+        }
+    });
+    const {data: reviews} = useQuery({
+        queryKey: ['movies', 'reviews'],
+        queryFn: async () => {
+            return await axiosInstance.get(`/movie/${movieId}/reviews`);
         }
     });
 
@@ -38,141 +40,65 @@ const MovieDetail = () => {
         );
     }
     return (
-        <div>
-            <TopContainer>
-
-                    <InfoWrapper>
+        <M.Container>
+            <M.TopContainer>
+                <M.InfoWrapper>
                     <h1>{movies.data?.title}</h1>
                     <div>평균: {movies.data?.vote_average}</div>
                     <div>{movies.data?.release_date}</div>
                     <div>{movies.data?.runtime}분</div>
                     <div className="tagline">{movies.data?.tagline}</div>
                     <div>{movies.data?.overview}</div>
-                    </InfoWrapper>
-                    <Gradient>
-                        <BackdropPathWrapper>
-                            <img src={`https://image.tmdb.org/t/p/w500${movies.data?.backdrop_path}`} alt='영화 포스터' />
-                        </BackdropPathWrapper> 
-                    </Gradient>
-                  
-            </TopContainer>
+                </M.InfoWrapper>
+                <M.Gradient>
+                    <M.BackdropPathWrapper>
+                        <img src={`https://image.tmdb.org/t/p/w500${movies.data?.backdrop_path}`} alt='영화 포스터' />
+                    </M.BackdropPathWrapper> 
+                </M.Gradient>
+            </M.TopContainer>
 
-            <BottomContainer>
-                <h2>감독/출연</h2>
-                <PeopleContainer>
+            <M.ContentContainer>
+                <h3>감독/출연</h3>
+                <M.PeopleContainer>
                     {actors.data?.cast.map((actor) => (
-                        <ProfileWrapper key={actor.id}>
-                            <ProfileImgWrapper>
+                        <M.PeopleWrapper key={actor.id}>
+                            <div>
                                 <img src={`https://image.tmdb.org/t/p/w500${actor.profile_path}`} alt="없음"/>
-                            </ProfileImgWrapper>
-                            <NameWrapper>
+                            </div>
+                            <M.NameWrapper>
                                 <div className="name">{actor.name}</div>
                                 <div className="role">{actor.character}({actor.known_for_department})</div>
-                            </NameWrapper>
-                        </ProfileWrapper>
+                            </M.NameWrapper>
+                        </M.PeopleWrapper>
                     ))}
-                </PeopleContainer>
-            </BottomContainer>
-        </div>
+                </M.PeopleContainer>
+            </M.ContentContainer>
+
+            <M.ContentContainer>
+                <h3>리뷰</h3>
+                <M.ReviewContainer>
+                    {reviews?.data.results.map((review) => (
+                        <M.ReviewWrapper key={review.id}>
+                            <div>
+                                <img src={`https://image.tmdb.org/t/p/w500${review.author_details.avatar_path}`}/>   
+                            </div>
+                            <div className='author_info'>
+                                <div className='info_top'>
+                                    <div>{review.author_details.username}</div>
+                                    <div>
+                                        {review.author_details.rating
+                                            ? "⭐️".repeat(Math.floor(review.author_details.rating))
+                                            : "No rating"}
+                                    </div>                                    
+                                </div>
+                                <div>{review.content}</div>
+                            </div>
+                        </M.ReviewWrapper>
+                    ))}
+                </M.ReviewContainer>
+            </M.ContentContainer>
+        </M.Container>
     );
 };
 
 export default MovieDetail;
-
-const TopContainer = styled.div`
-    color: white;
-    height: 400px;
-    position: relative;
-`;
-
-const Gradient = styled.div` //그라데이션
-    position: absolute;
-    bottom: 0;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    ::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        border-radius: 20px; /* 이미지와 동일하게 테두리를 적용 */
-        background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8) 40%, rgba(0, 0, 0, 0.5) 50%, transparent 70%);
-    }
-`;
-
-const InfoWrapper = styled.div`
-    z-index: 2;
-    position: absolute;
-    bottom: 0;
-    top: 0;
-    left: 0;
-    width: 450px;
-    height: 100%;
-    border-bottom:2px solid white;
-    overflow: hidden;
-    .tagline {
-        font-style: italic;
-        font-weight: bold;
-        font-size: 20px;
-        padding: 15px 0;
-    }
-`;
-
-const BackdropPathWrapper = styled.div`
-    height: 100%;
-    img {
-        width: 100%;
-        height: 100%;
-        // object-fit: cover; /* div 크기에 맞춰 이미지가 꽉 차도록 */
-        border-radius: 20px;
-    }
-     
-`;
-
-const BottomContainer = styled.div`
-    color: white;
-`;
-
-const PeopleContainer = styled.div`
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    grid-gap: 15px;
-`;
-
-const ProfileWrapper = styled.div`
-    color: white;
-`;
-
-const ProfileImgWrapper = styled.div`
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 1.5px solid white;
-    overflow: hidden;
-
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* 이미지를 div에 딱 맞게 */
-    }
-`;
-
-const NameWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    .name {
-        font-weight: bold;
-        font-size: 13px;
-    }
-    .role {
-        font-size: 11px;
-        color: gray;
-    }
-`;
