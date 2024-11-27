@@ -1,6 +1,6 @@
 import { CartIcon } from "../constants/icons";
 import * as N from '../styles/navbar.style';
-import { useCartStore } from '../store/cartStore';
+import useCartStore from '../store/cartStore';
 
 const Navbar = () => {
     const { amount } = useCartStore();

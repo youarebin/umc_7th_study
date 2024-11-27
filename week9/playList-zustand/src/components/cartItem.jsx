@@ -1,6 +1,6 @@
 import { ChevronDown, ChevronUp } from "../constants/icons";
 import * as C from '../styles/cartItem.style';
-import { useCartStore } from "../store/cartStore";
+import useCartStore from "../store/cartStore";
 
 const CartItem = ({id, title, singer, price, img, amount}) => {
     const { increase, removeItem, decrease } = useCartStore();

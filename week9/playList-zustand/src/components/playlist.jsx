@@ -1,8 +1,8 @@
 import CartItem from "./cartItem";
 import { useSelector } from "react-redux";
 import * as P from '../styles/playlist.style';
-import { useModalStore } from "../store/modalStore";
-import { useCartStore } from "../store/cartStore";
+import useModalStore from "../store/modalStore";
+import useCartStore from "../store/cartStore";
 
 function PlayList () {
     const { cartItems, total } = useCartStore();

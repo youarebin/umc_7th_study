@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import cartItems from '../constants/cartItem';
 
-export const useCartStore = create((set, get) => ({
+const useCartStore = create((set, get) => ({
     cartItems: cartItems,
     amount: 0,
     total: 0,
@@ -54,3 +54,5 @@ export const useCartStore = create((set, get) => ({
       set({ amount, total });
     },
   }));
+
+  export default useCartStore;

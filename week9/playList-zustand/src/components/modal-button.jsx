@@ -1,18 +1,18 @@
 import * as M from '../styles/modal.style';
-import { useDispatch } from "react-redux";
-import { clearCart } from "../features/cart/cartSlice";
-import { closeModal } from "../features/modal/modalSlice";
+import useModalStore from "../store/modalStore";
+import useCartStore from "../store/cartStore";
 
 const ModalButton = () => {
-    const dispatch = useDispatch();
+    const { closeModal } = useModalStore();
+    const { clearCart } = useCartStore();
 
     return(
         <M.BtnWrapper>
             <M.YesBtn 
                 type="button"
                 onClick={() => {
-                    dispatch(clearCart());
-                    dispatch(closeModal());
+                    clearCart();
+                    closeModal();
                 }}
             >
             네
@@ -20,7 +20,7 @@ const ModalButton = () => {
             <M.NoBtn 
                 type="button"
                 onClick={() => {
-                    dispatch(closeModal());
+                    closeModal();
                 }}
             >
             아니요

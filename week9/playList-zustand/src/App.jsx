@@ -3,8 +3,8 @@ import PlayList from './components/playlist';
 import Modal from './components/modal';
 import Navbar from './components/navbar';
 import ModalPotal from './components/modalPotal';
-import { useModalStore } from './store/modalStore';
-import { useCartStore } from './store/cartStore';
+import useModalStore from './store/modalStore';
+import useCartStore from './store/cartStore';
 import { useEffect } from 'react';
 
 function App() {
