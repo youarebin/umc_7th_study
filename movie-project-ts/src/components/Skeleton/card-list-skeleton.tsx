@@ -1,6 +1,5 @@
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import CardSkeleton from "./card-skeleton";
+import CardSkeleton from './card-skeleton';
 
 const CardListSkeleton = ({number}) => {
     return (
