@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useQuery } from '@tanstack/react-query';
-import { axiosInstance } from '../apis/axios-instance';
+import { axiosInstance } from "../apis/axios-instance";
 import MovieCard2 from "../components/movie-card2";
 
 interface Movie {
